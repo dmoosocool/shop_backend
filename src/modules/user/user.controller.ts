@@ -5,8 +5,8 @@ import { UserDto, UpdatePasswordDto } from './user.dto';
 @Controller('users')
 export class UserController {
   constructor(
-    private readonly userService: UserService
-  ){ }
+    private readonly userService: UserService,
+  ) { }
 
   @Post()
   async store(@Body() data: UserDto ) {
@@ -34,5 +34,5 @@ export class UserController {
   @UseInterceptors(ClassSerializerInterceptor)
   async updatePassword(@Param('id') id: string, @Body() data: UpdatePasswordDto ) {
     return await this.userService.updatePassword(id, data);
-  } 
+  }
 }

@@ -23,7 +23,7 @@ export class UserEntity {
   updated: Date;
 
   @Column('varchar', {
-    unique: true
+    unique: true,
   })
   name: string;
 
@@ -41,6 +41,6 @@ export class UserEntity {
   }
 
   async comparePassword(password: string) {
-    return await bcrypt.compare( password, this.password ); 
+    return await bcrypt.compare( password, this.password );
   }
 }

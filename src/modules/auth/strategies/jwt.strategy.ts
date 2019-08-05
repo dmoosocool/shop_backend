@@ -8,18 +8,18 @@ import { UserService } from 'modules/user/user.service';
 export class JwtStrategy extends PassportStrategy(Strategy) {
 
   // 从Auth Header中拿到bearer token.
-  constructor (
+  constructor(
     private readonly userService: UserService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'woshinidejia.'
-    })
+      secretOrKey: 'woshinidejia.',
+    });
   }
 
   /**
    * 验证token(用户id,用户名.)
-   * 
+   *
    * @param payload {JwtPayload}
    * @param done {VerifiedCallback}
    */
@@ -28,7 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const entity = await this.userService.findByName(name);
 
     // 因为是根据用户id和用户名所签发的token, 如果从token中拿到的用户名已经被删除或者是修改. 将提示用户“没找到用户”.
-    if( !entity ) {
+    if ( !entity ) {
       done(new UnauthorizedException('没找到用户'));
     }
 

@@ -1,12 +1,12 @@
-import { 
-  Controller, 
-  Post, 
-  Body, 
-  UseInterceptors, 
-  ClassSerializerInterceptor, 
-  Get, 
-  UseGuards, 
-  Req 
+import {
+  Controller,
+  Post,
+  Body,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  Get,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
@@ -17,12 +17,12 @@ import { User } from 'core/decorators/user.dacorator';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) { }
 
   /**
    * 登陆
-   * @param data 
+   * @param data
    */
   @Post('login')
   @UseInterceptors(ClassSerializerInterceptor)
@@ -33,9 +33,10 @@ export class AuthController {
   @Get('test')
   @UseGuards(AuthGuard('jwt'))
   async authTest(@User() user) {
+    // tslint:disable-next-line: no-console
     console.log( user );
     return {
-      message: 'ok'
-    }
+      message: 'ok',
+    };
   }
 }

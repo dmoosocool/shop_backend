@@ -8,24 +8,24 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
   ) { }
-  
+
   /**
    * 登陆验权。
-   * @param data 
+   * @param data
    */
   async login(data: LoginDto) {
     const { name, password } = data;
     const entity = await this.userService.findByName(name);
 
     // 用户不存在.
-    if( !entity ) {
+    if ( !entity ) {
       throw new NotFoundException('用户名不存在');
-    } 
+    }
 
     // 密码不匹配.
-    if( !(await entity.comparePassword(password)) ) {
+    if ( !(await entity.comparePassword(password)) ) {
       throw new UnauthorizedException('密码不匹配');
     }
 
@@ -35,13 +35,13 @@ export class AuthService {
 
     return {
       ...payload,
-      token
+      token,
     };
   }
 
   /**
    * 根据用户id及用户名生成token.
-   * @param data 
+   * @param data
    */
   signToken(data: JwtPayload) {
     return this.jwtService.sign(data);

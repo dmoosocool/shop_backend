@@ -4,12 +4,11 @@ import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { UserDto, UpdatePasswordDto } from './user.dto';
 
-
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
+    private readonly userRepository: Repository<UserEntity>,
   ) { }
 
   async store( data: UserDto) {
@@ -17,7 +16,7 @@ export class UserService {
     const { name } = data;
     const user = await this.userRepository.findOne({name });
 
-    if( user ) {
+    if ( user ) {
       throw new BadRequestException('用户已经存在');
     }
 
@@ -29,7 +28,7 @@ export class UserService {
   async show(id: string ) {
     const entity = await this.userRepository.findOne(id);
 
-    if(!entity) {
+    if (!entity) {
       throw new NotFoundException('没找到用户');
     }
     return entity;
@@ -46,9 +45,9 @@ export class UserService {
 
     const pass = await entity.comparePassword(password);
 
-    if( !pass ) {
+    if ( !pass ) {
       throw new BadRequestException('密码验证失败， 请重新输入正确的密码。');
-    } 
+    }
 
     entity.password = newPassword;
 
