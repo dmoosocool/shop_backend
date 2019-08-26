@@ -13,8 +13,8 @@ export class UserService {
 
   async store( data: UserDto) {
 
-    const { name } = data;
-    const user = await this.userRepository.findOne({name });
+    const { email } = data;
+    const user = await this.userRepository.findOne({ email });
 
     if ( user ) {
       throw new BadRequestException('用户已经存在');
@@ -54,7 +54,7 @@ export class UserService {
     return await this.userRepository.save(entity);
   }
 
-  async findByName(name: string) {
-    return await this.userRepository.findOne({name});
+  async findByEmail(email: string) {
+    return await this.userRepository.findOne({email});
   }
 }

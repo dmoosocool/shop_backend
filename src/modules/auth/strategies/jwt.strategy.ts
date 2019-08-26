@@ -24,8 +24,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * @param done {VerifiedCallback}
    */
   async validate(payload: JwtPayload, done: VerifiedCallback ) {
-    const { name } = payload;
-    const entity = await this.userService.findByName(name);
+    const { email } = payload;
+    const entity = await this.userService.findByEmail(email);
 
     // 因为是根据用户id和用户名所签发的token, 如果从token中拿到的用户名已经被删除或者是修改. 将提示用户“没找到用户”.
     if ( !entity ) {

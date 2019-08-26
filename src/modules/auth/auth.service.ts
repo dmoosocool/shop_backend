@@ -16,8 +16,8 @@ export class AuthService {
    * @param data
    */
   async login(data: LoginDto) {
-    const { name, password } = data;
-    const entity = await this.userService.findByName(name);
+    const { email, password } = data;
+    const entity = await this.userService.findByEmail(email);
 
     // 用户不存在.
     if ( !entity ) {
@@ -30,7 +30,7 @@ export class AuthService {
     }
 
     const { id } = entity;
-    const payload = { id, name };
+    const payload = { id, email };
     const token = this.signToken( payload );
 
     return {

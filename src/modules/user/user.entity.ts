@@ -13,21 +13,31 @@ import * as bcrypt from 'bcrypt';
 
 @Entity('user')
 export class UserEntity {
-  @PrimaryGeneratedColumn('uuid')
+  
+  @PrimaryGeneratedColumn('uuid',{
+    comment: '用户主键'
+  })
   id: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    comment: '创建时间'
+  })
   created: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    comment: '更新时间'
+  })
   updated: Date;
 
   @Column('varchar', {
     unique: true,
+    comment: '电子邮箱'
   })
-  name: string;
+  email: string;
 
-  @Column()
+  @Column({
+    comment: '密码'
+  })
   @Exclude()
   password: string;
 
