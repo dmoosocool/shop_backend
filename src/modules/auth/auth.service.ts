@@ -29,8 +29,8 @@ export class AuthService {
       throw new UnauthorizedException('密码不匹配');
     }
 
-    const { id } = entity;
-    const payload = { id, email };
+    const { id, nickname} = entity;
+    const payload = { id, email, nickname};
     const token = this.signToken( payload );
 
     return {

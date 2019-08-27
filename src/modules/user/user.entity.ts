@@ -44,6 +44,9 @@ export class UserEntity {
   @Exclude()
   password: string;
 
+  @Column()
+  nickname: string;
+
   @Column({
     type: 'enum',
     enum: UserSex,
