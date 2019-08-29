@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 
 import { Exclude } from 'class-transformer';
-import { IsEmail } from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import { UserSex } from 'core/enums/sex';
 import { UserType } from 'core/enums/UserType';
@@ -35,7 +34,6 @@ export class UserEntity {
     unique: true,
     comment: '电子邮箱',
   })
-  @IsEmail()
   email: string;
 
   @Column({
@@ -50,7 +48,6 @@ export class UserEntity {
   @Column({
     type: 'enum',
     enum: UserSex,
-    unique: true,
     default: UserSex.OTHER,
     comment: '性别. 0女 1男 2其他',
   })
@@ -59,7 +56,6 @@ export class UserEntity {
   @Column({
     type: 'enum',
     enum: UserType,
-    unique: true,
     default: UserType.MEMBER,
     comment: '用户类型, 0管理员 1会员',
   })

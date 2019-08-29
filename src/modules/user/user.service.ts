@@ -1,22 +1,29 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { UserDto, UpdatePasswordDto } from './user.dto';
+import { UserType } from 'core/enums/UserType';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ) { }
+  ) {}
 
-  async store( data: UserDto) {
-
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async store(data: UserDto) {
     const { email } = data;
     const user = await this.userRepository.findOne({ email });
 
-    if ( user ) {
+    if (user) {
       throw new BadRequestException('用户已经存在');
     }
 
@@ -25,7 +32,7 @@ export class UserService {
     return entity;
   }
 
-  async show(id: string ) {
+  async show(id: string) {
     const entity = await this.userRepository.findOne(id);
 
     if (!entity) {
@@ -45,7 +52,7 @@ export class UserService {
 
     const pass = await entity.comparePassword(password);
 
-    if ( !pass ) {
+    if (!pass) {
       throw new BadRequestException('密码验证失败， 请重新输入正确的密码。');
     }
 
@@ -55,6 +62,10 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return await this.userRepository.findOne({email});
+    return await this.userRepository.findOne({ email });
+  }
+
+  async selectMemberList() {
+    return await this.userRepository.find({ type: UserType.MEMBER });
   }
 }
