@@ -9,9 +9,11 @@ import {
   Put,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDto, UpdatePasswordDto } from './user.dto';
+import { UserDto, UpdatePasswordDto, UserListDto } from './user.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UserController {
@@ -19,6 +21,7 @@ export class UserController {
 
   @Post()
   @UsePipes(new ValidationPipe({ transform: true }))
+  @UseGuards(AuthGuard('jwt'))
   async store(@Body() data: UserDto) {
     return await this.userService.store(data);
   }
@@ -30,14 +33,16 @@ export class UserController {
    */
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthGuard('jwt'))
   async show(@Param('id') id: string) {
     return await this.userService.show(id);
   }
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
-  async list() {
-    return await this.userService.selectMemberList();
+  @UseGuards(AuthGuard('jwt'))
+  async list(@Body() query: UserListDto) {
+    return await this.userService.selectUserList(query);
   }
   /**
    * 更新用户密码
@@ -47,6 +52,7 @@ export class UserController {
    */
   @Put(':id/password')
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthGuard('jwt'))
   async updatePassword(
     @Param('id') id: string,
     @Body() data: UpdatePasswordDto,

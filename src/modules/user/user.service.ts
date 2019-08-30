@@ -8,7 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
-import { UserDto, UpdatePasswordDto } from './user.dto';
+import { UserDto, UpdatePasswordDto, UserListDto } from './user.dto';
 import { UserType } from 'core/enums/UserType';
 
 @Injectable()
@@ -43,13 +43,11 @@ export class UserService {
 
   async updatePassword(id: string, data: UpdatePasswordDto) {
     const { password, newPassword } = data;
-
     const entity = await this.userRepository.findOne(id);
 
     if (!entity) {
       throw new NotFoundException('没找到用户');
     }
-
     const pass = await entity.comparePassword(password);
 
     if (!pass) {
@@ -57,7 +55,6 @@ export class UserService {
     }
 
     entity.password = newPassword;
-
     return await this.userRepository.save(entity);
   }
 
@@ -65,7 +62,7 @@ export class UserService {
     return await this.userRepository.findOne({ email });
   }
 
-  async selectMemberList() {
-    return await this.userRepository.find({ type: UserType.MEMBER });
+  async selectUserList(query: UserListDto) {
+    return await this.userRepository.find(query);
   }
 }

@@ -1,4 +1,6 @@
 import { IsEmail, MaxLength, MinLength } from 'class-validator';
+import { UserType } from 'core/enums/UserType';
+import { UserSex } from 'core/enums/sex';
 
 export class UserDto {
   @IsEmail(undefined, {
@@ -13,4 +15,10 @@ export class UserDto {
 export class UpdatePasswordDto {
   readonly password: string;
   readonly newPassword: string;
+}
+
+export class UserListDto {
+  readonly email?: string;
+  readonly type?: UserType;
+  readonly sex?: UserSex;
 }
