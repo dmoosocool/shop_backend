@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { UserDto, UpdatePasswordDto, UserListDto } from './user.dto';
 import { UserType } from 'core/enums/UserType';
 
@@ -62,7 +62,13 @@ export class UserService {
     return await this.userRepository.findOne({ email });
   }
 
-  async selectUserList(query: UserListDto) {
-    return await this.userRepository.find(query);
+  async selectUserList(dto: UserListDto) {
+    let query = {
+      ...dto
+    }
+    !query.email ? delete query.email : query.email = Like(`%${query.email}%`);
+    return await this.userRepository.find({
+      ...query
+    });
   }
 }

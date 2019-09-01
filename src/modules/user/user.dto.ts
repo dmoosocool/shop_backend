@@ -1,6 +1,7 @@
 import { IsEmail, MaxLength, MinLength } from 'class-validator';
 import { UserType } from 'core/enums/UserType';
 import { UserSex } from 'core/enums/sex';
+import { FindOperator } from 'typeorm';
 
 export class UserDto {
   @IsEmail(undefined, {
@@ -18,7 +19,7 @@ export class UpdatePasswordDto {
 }
 
 export class UserListDto {
-  readonly email?: string;
+  readonly email?: FindOperator<string>|string;
   readonly type?: UserType;
   readonly sex?: UserSex;
 }

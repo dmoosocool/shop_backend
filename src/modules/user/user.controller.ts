@@ -10,10 +10,13 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto, UpdatePasswordDto, UserListDto } from './user.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import { userInfo } from 'os';
 
 @Controller('users')
 export class UserController {
@@ -41,9 +44,13 @@ export class UserController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
-  async list(@Body() query: UserListDto) {
-    return await this.userService.selectUserList(query);
+  async list(
+    @Req() req:Request
+  ) {
+    const userList: UserListDto  = req.query;
+    return await this.userService.selectUserList(userList);
   }
+
   /**
    * 更新用户密码
    * 通过 @UseInterceptors(ClassSerializerInterceptor) 过滤拦截掉返回数据中的敏感数据.
