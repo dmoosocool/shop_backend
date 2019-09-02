@@ -60,6 +60,13 @@ export class UserEntity {
     comment: '用户类型, 0管理员 1会员',
   })
   type: UserType;
+
+  @Column({
+    type: 'boolean',
+    default: false,
+    comment: '已删除',
+  })
+  isDeleted: boolean;
   /**
    * 在记录插入、更新前, 将用户密码进行hash加密.
    */

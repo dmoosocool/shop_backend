@@ -11,6 +11,10 @@ export class UserDto {
   @MaxLength(16, { message: '密码最大长度不得超过16位.' })
   @MinLength(6, { message: '密码最小长度不得少于6位.' })
   readonly password: string;
+
+  readonly id: string;
+
+  readonly isDeleted: boolean;
 }
 
 export class UpdatePasswordDto {
@@ -19,7 +23,7 @@ export class UpdatePasswordDto {
 }
 
 export class UserListDto {
-  readonly email?: FindOperator<string>|string;
+  readonly email?: FindOperator<string> | string;
   readonly type?: UserType;
   readonly sex?: UserSex;
 }

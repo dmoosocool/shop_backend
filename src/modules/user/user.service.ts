@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, getConnection } from 'typeorm';
 import { UserDto, UpdatePasswordDto, UserListDto } from './user.dto';
 import { UserType } from 'core/enums/UserType';
 
@@ -63,12 +63,31 @@ export class UserService {
   }
 
   async selectUserList(dto: UserListDto) {
-    let query = {
-      ...dto
-    }
-    !query.email ? delete query.email : query.email = Like(`%${query.email}%`);
+    const query = {
+      ...dto,
+    };
+    !query.email
+      ? delete query.email
+      : (query.email = Like(`%${query.email}%`));
     return await this.userRepository.find({
-      ...query
+      ...query,
     });
+  }
+
+  async deleteUsers(id: string[] | string) {
+    const isMult = typeof id === 'string' ? false : true;
+
+    if (isMult) {
+      return await getConnection()
+        .createQueryBuilder()
+        .update(UserEntity)
+        .set({
+          isDeleted: true,
+        })
+        .where('id in (:id)', { id })
+        .execute();
+    } else {
+      return await this.userRepository.update(id, { isDeleted: true });
+    }
   }
 }

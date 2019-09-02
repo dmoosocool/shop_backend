@@ -11,12 +11,13 @@ import {
   ValidationPipe,
   UseGuards,
   Req,
+  Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto, UpdatePasswordDto, UserListDto } from './user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { userInfo } from 'os';
+import { UserType } from 'core/enums/UserType';
 
 @Controller('users')
 export class UserController {
@@ -44,10 +45,8 @@ export class UserController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
-  async list(
-    @Req() req:Request
-  ) {
-    const userList: UserListDto  = req.query;
+  async list(@Req() req: Request) {
+    const userList: UserListDto = req.query;
     return await this.userService.selectUserList(userList);
   }
 
@@ -65,5 +64,21 @@ export class UserController {
     @Body() data: UpdatePasswordDto,
   ) {
     return await this.userService.updatePassword(id, data);
+  }
+
+  @Delete()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthGuard('jwt'))
+  async deleteUser(@Body() data: UserDto) {
+    const { id } = data;
+    // const { id } = req.query;
+
+    if (id.indexOf(',') > -1) {
+      // 多个删除,
+      return await this.userService.deleteUsers(id.split(','));
+    } else {
+      // 单个删除,
+      return await this.userService.deleteUsers(id);
+    }
   }
 }
