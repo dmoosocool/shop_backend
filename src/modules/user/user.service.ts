@@ -65,6 +65,7 @@ export class UserService {
   async selectUserList(dto: UserListDto) {
     const query = {
       ...dto,
+      isDeleted: false,
     };
     !query.email
       ? delete query.email
