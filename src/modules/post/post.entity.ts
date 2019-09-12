@@ -18,7 +18,7 @@ export class PostEntity {
   updated: Date;
 
   @Column('text')
-  titlte: string;
+  title: string;
 
   @Column('text')
   description: string;
