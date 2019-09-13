@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class PostDto {
+export class GoodsDto {
   @IsNotEmpty({
     message: 'title不允许为空',
   })

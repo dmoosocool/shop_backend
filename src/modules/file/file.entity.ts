@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('file')
 export class FileEntity {
-  @PrimaryGeneratedColumn({
+  @PrimaryGeneratedColumn('uuid', {
     comment: '文件主键',
   })
   id: number;
