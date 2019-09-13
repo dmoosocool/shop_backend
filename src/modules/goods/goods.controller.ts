@@ -8,10 +8,13 @@ import {
   UsePipes,
   ValidationPipe,
   Body,
+  Query,
 } from '@nestjs/common';
 import { GoodsService } from './goods.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GoodsDto } from './goods.dto';
+import { ListOptions } from 'core/decorators/list-options.dacorator';
+import { ListOptionsInterface } from 'core/interfaces/list-options.interface';
 
 @Controller('goods')
 export class GoodsController {
@@ -19,8 +22,8 @@ export class GoodsController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
-  async list() {
-    return await this.goodsService.selectList();
+  async list(@ListOptions() options: ListOptionsInterface) {
+    return await this.goodsService.selectList(options);
   }
 
   @Post()

@@ -4,25 +4,42 @@ import {
   CreateDateColumn,
   Column,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { GoodsCategoryEntity } from 'modules/goods-category/goods-category.entity';
 
 @Entity('goods')
 export class GoodsEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', {
+    comment: '商品id',
+  })
   id: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    comment: '创建时间',
+  })
   created: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    comment: '更新时间',
+  })
   updated: Date;
 
-  @Column('text')
+  @Column('text', {
+    comment: '商品标题',
+  })
   title: string;
 
-  @Column('text')
+  @Column('text', {
+    comment: '商品描述',
+  })
   description: string;
 
-  @Column('text')
+  @Column('text', {
+    comment: '商品详情',
+  })
   content: string;
+
+  @ManyToOne(type => GoodsCategoryEntity, category => category.goods)
+  category: GoodsCategoryEntity;
 }

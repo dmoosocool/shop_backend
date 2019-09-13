@@ -5,7 +5,7 @@ export class FileEntity {
   @PrimaryGeneratedColumn('uuid', {
     comment: '文件主键',
   })
-  id: number;
+  id: string;
 
   @Column({
     comment: '原文件名',

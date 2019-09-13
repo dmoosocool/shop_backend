@@ -16,9 +16,7 @@ import { User } from 'core/decorators/user.dacorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-  ) { }
+  constructor(private readonly authService: AuthService) {}
 
   /**
    * 登陆
@@ -34,7 +32,7 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   async authTest(@User() user) {
     // tslint:disable-next-line: no-console
-    console.log( user );
+    console.log(user);
     return {
       message: 'ok',
     };
