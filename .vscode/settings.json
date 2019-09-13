@@ -1,3 +1,4 @@
 {
+  "tslint.jsEnable": true,
   "tslint.autoFixOnSave": true
 }
