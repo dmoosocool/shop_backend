@@ -1,14 +1,22 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Get, Param, ParseIntPipe, Res, UseGuards } from '@nestjs/common';
-import { FileInterceptor} from '@nestjs/platform-express';
+import {
+  Controller,
+  Post,
+  UseInterceptors,
+  UploadedFile,
+  Get,
+  Param,
+  ParseIntPipe,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService } from './file.service';
 import { FileDto } from './file.dto';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 @Controller('files')
 export class FileController {
-  constructor(
-    private readonly fileService: FileService,
-  ) {}
+  constructor(private readonly fileService: FileService) {}
 
   /**
    * 文件上传
@@ -17,9 +25,7 @@ export class FileController {
   @Post()
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileInterceptor('file'))
-  async store(
-    @UploadedFile() data: FileDto,
-  ) {
+  async store(@UploadedFile() data: FileDto) {
     return await this.fileService.store(data);
   }
 
@@ -30,10 +36,7 @@ export class FileController {
    */
   @Get('serve/:id')
   @UseGuards(AuthGuard('jwt'))
-  async serve(
-    @Param('id', ParseIntPipe) id: number,
-    @Res() res: Response,
-  ) {
+  async serve(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
     const file = await this.fileService.show(id);
     res.sendfile(file.filename, {
       root: 'uploads',
