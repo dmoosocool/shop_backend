@@ -13,19 +13,23 @@ import { FileEntity } from './file.entity';
     // 设置文件上传本地磁盘的位置.
     MulterModule.register({
       dest: './uploads',
+
+      // 添加允许上传的文件类型
       fileFilter: (req, file, callback) => {
+
         const mimetypes = [
           'image/png',
           'image/jpg',
         ];
 
+        // 判断是否是允许的文件类型
         const allowed = mimetypes.some( type => type === file.mimetype );
-        if(allowed) {
+
+        if (allowed) {
           callback(null, true);
-        }else{
+        } else {
           callback(new BadRequestException('不支持上传次类型的文件.'), false);
         }
-
       },
     }),
   ],

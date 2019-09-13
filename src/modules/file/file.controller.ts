@@ -1,8 +1,9 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Get, Param, ParseIntPipe, Res } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Get, Param, ParseIntPipe, Res, UseGuards } from '@nestjs/common';
 import { FileInterceptor} from '@nestjs/platform-express';
 import { FileService } from './file.service';
 import { FileDto } from './file.dto';
 import { Response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 @Controller('files')
 export class FileController {
   constructor(
@@ -14,6 +15,7 @@ export class FileController {
    * @param data {FileDto} 上传数据
    */
   @Post()
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileInterceptor('file'))
   async store(
     @UploadedFile() data: FileDto,
@@ -27,6 +29,7 @@ export class FileController {
    * @param res {Response}
    */
   @Get('serve/:id')
+  @UseGuards(AuthGuard('jwt'))
   async serve(
     @Param('id', ParseIntPipe) id: number,
     @Res() res: Response,
