@@ -71,7 +71,6 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   async deleteUser(@Body() data: UserDto) {
     const { id } = data;
-    // const { id } = req.query;
 
     if (id.indexOf(',') > -1) {
       // 多个删除,

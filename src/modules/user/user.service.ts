@@ -58,8 +58,16 @@ export class UserService {
     return await this.userRepository.save(entity);
   }
 
-  async findByEmail(email: string) {
-    return await this.userRepository.findOne({ email });
+  async findByEmail(email: string, password?: boolean) {
+    if (password) {
+      return await this.userRepository
+        .createQueryBuilder('user')
+        .where('user.email = :email', { email })
+        .addSelect('user.password')
+        .getOne();
+    } else {
+      return await this.userRepository.findOne({ email });
+    }
   }
 
   async selectUserList(dto: UserListDto) {

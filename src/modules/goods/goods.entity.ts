@@ -5,8 +5,10 @@ import {
   Column,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { GoodsCategoryEntity } from 'modules/goods-category/goods-category.entity';
+import { GoodsCommentEntity } from 'modules/goods-comment/goods-comment.entity';
 
 @Entity('goods')
 export class GoodsEntity {
@@ -42,4 +44,7 @@ export class GoodsEntity {
 
   @ManyToOne(type => GoodsCategoryEntity, category => category.goods)
   category: GoodsCategoryEntity;
+
+  @OneToMany(type => GoodsCommentEntity, comment => comment.goods)
+  comments: GoodsCommentEntity[];
 }

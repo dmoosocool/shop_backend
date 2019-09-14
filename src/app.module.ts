@@ -7,6 +7,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { FileModule } from './modules/file/file.module';
 import { GoodsCategoryModule } from './modules/goods-category/goods-category.module';
+import { GoodsCommentModule } from './modules/goods-comment/goods-comment.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { GoodsCategoryModule } from './modules/goods-category/goods-category.mod
     AuthModule,
     FileModule,
     GoodsCategoryModule,
+    GoodsCommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
