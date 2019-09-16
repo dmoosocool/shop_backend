@@ -5,6 +5,7 @@ import {
   UseGuards,
   UsePipes,
   ValidationPipe,
+  Get,
 } from '@nestjs/common';
 import { GoodsCategoryService } from './goods-category.service';
 import { GoodsCategoryDto } from './goods-category.dto';
@@ -18,6 +19,12 @@ export class GoodsCategoryController {
   @UseGuards(AuthGuard('jwt'))
   @UsePipes(new ValidationPipe({ transform: true }))
   async store(@Body() data: GoodsCategoryDto) {
-    return this.goodsCategoryService.store(data);
+    return await this.goodsCategoryService.store(data);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard('jwt'))
+  async queryList() {
+    return await this.goodsCategoryService.queryList();
   }
 }

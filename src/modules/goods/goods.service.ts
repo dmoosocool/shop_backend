@@ -41,6 +41,7 @@ export class GoodsService {
         queryBuilder.where('category.alias = :categories', { categories });
       }
     }
+    queryBuilder.orderBy('updated', 'DESC');
 
     const entities = queryBuilder.getMany();
     return entities;

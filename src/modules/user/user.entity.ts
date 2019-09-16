@@ -14,6 +14,7 @@ import * as bcrypt from 'bcrypt';
 import { UserSex } from 'core/enums/sex';
 import { UserType } from 'core/enums/UserType';
 import { GoodsCommentEntity } from 'modules/goods-comment/goods-comment.entity';
+import { OrderEntity } from 'modules/order/order.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -71,8 +72,13 @@ export class UserEntity {
   })
   isDeleted: boolean;
 
+  /** 用户评论 */
   @OneToMany(type => GoodsCommentEntity, comment => comment.user)
   comments: GoodsCommentEntity[];
+
+  /** 用户订单 */
+  @OneToMany(type => OrderEntity, order => order.user)
+  orders: OrderEntity[];
   /**
    * 在记录插入、更新前, 将用户密码进行hash加密.
    */

@@ -32,6 +32,12 @@ export class GoodsEntity {
   })
   title: string;
 
+  @Column({
+    type: 'float',
+    comment: '商品价格',
+  })
+  price: number;
+
   @Column('text', {
     comment: '商品描述',
   })
@@ -42,9 +48,15 @@ export class GoodsEntity {
   })
   content: string;
 
+  /**
+   * 商品分类关联 goods_category表
+   */
   @ManyToOne(type => GoodsCategoryEntity, category => category.goods)
   category: GoodsCategoryEntity;
 
+  /**
+   * 商品评论关联 goods_comment表
+   */
   @OneToMany(type => GoodsCommentEntity, comment => comment.goods)
   comments: GoodsCommentEntity[];
 }

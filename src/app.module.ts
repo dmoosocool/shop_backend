@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { FileModule } from './modules/file/file.module';
 import { GoodsCategoryModule } from './modules/goods-category/goods-category.module';
 import { GoodsCommentModule } from './modules/goods-comment/goods-comment.module';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { GoodsCommentModule } from './modules/goods-comment/goods-comment.module
     FileModule,
     GoodsCategoryModule,
     GoodsCommentModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

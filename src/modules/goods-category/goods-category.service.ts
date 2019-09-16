@@ -15,4 +15,12 @@ export class GoodsCategoryService {
     const entity = await this.goodsCategoryRepository.create(data);
     return await this.goodsCategoryRepository.save(entity);
   }
+
+  async queryList() {
+    return await this.goodsCategoryRepository.find({
+      order: {
+        alias: 'DESC',
+      },
+    });
+  }
 }
