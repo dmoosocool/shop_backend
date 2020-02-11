@@ -45,7 +45,7 @@ export class UserController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
-  async list(@Req() req: Request) {
+  async list(@Req() req: any) {
     const userList: UserListDto = req.query;
     return await this.userService.selectUserList(userList);
   }

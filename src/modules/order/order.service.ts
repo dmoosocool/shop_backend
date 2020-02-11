@@ -10,8 +10,4 @@ export class OrderService {
     @InjectRepository(OrderEntity)
     private readonly orderService: Repository<OrderEntity>,
   ) {}
-
-  aysnc store(data: OrderDto) {
-  
-  }
 }
